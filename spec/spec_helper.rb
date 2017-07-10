@@ -1,22 +1,14 @@
-require 'simplecov'
-require 'coveralls'
-SimpleCov.formatter = SimpleCov::Formatter::MultiFormatter.new([
-                                                                   Coveralls::SimpleCov::Formatter,
-                                                                   SimpleCov::Formatter::HTMLFormatter
-                                                               ])
-SimpleCov.start
-
-require 'bundler/setup'
+# Application Files
+require 'parliament'
+require 'parliament/ntriple'
 require 'parliament/utils'
+require 'bandiera/client'
+require 'parliament/grom/decorator'
 
+# Load RSpec configurations held within all test helper modules included in the
+# overarching Parliament::Utils::TestHelpers module
 RSpec.configure do |config|
-  # Enable flags like --only-failures and --next-failure
-  config.example_status_persistence_file_path = '.rspec_status'
-
-  # Disable RSpec exposing methods globally on `Module` and `main`
-  config.disable_monkey_patching!
-
-  config.expect_with :rspec do |c|
-    c.syntax = :expect
+  Parliament::Utils::TestHelpers.included_modules.each do |m|
+    m.load_rspec_config(config)
   end
 end
