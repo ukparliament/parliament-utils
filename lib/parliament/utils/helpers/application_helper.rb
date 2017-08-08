@@ -23,7 +23,13 @@ module Parliament
           raise StandardError, 'Data URL does not exist' if @data_url.nil?
 
           response.headers['Accept'] = request.formats.first
-          redirect_to(@data_url.call(params).query_url) && return
+          # Store format_type if format in url is json or xml
+          request.path_parameters[:format] == 'json' || request.path_parameters[:format] == 'xml' ? format_type = request.path_parameters[:format] : format_type = nil
+          # Set redirect_url as URI object
+          redirect_url = URI(@data_url.call(params).query_url)
+          # add format_type to path if format in url is json or xml
+          redirect_url.path = redirect_url.path + '.' + format_type if format_type
+          redirect_to(redirect_url.to_s) && return
         end
 
         # Get the data URL for our current controller and action OR raise a StandardError
