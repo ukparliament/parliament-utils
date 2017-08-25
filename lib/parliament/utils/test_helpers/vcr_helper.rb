@@ -22,9 +22,9 @@ module Parliament
 
             # Create a simple matcher which will 'filter' any request URIs on the fly
             config.register_request_matcher :filtered_uri do |request_1, request_2|
-              parliament_match = request_1.uri.sub(ENV['PARLIAMENT_BASE_URL'], parliament_uri) == request_2.uri.sub(ENV['PARLIAMENT_BASE_URL'], parliament_uri)
-              bandiera_match   = request_1.uri.sub(ENV['BANDIERA_URL'], bandiera_uri) == request_2.uri.sub(ENV['BANDIERA_URL'], bandiera_uri)
-              opensearch_match = request_1.uri.sub(ENV['OPENSEARCH_DESCRIPTION_URL'], opensearch_uri) == request_2.uri.sub(ENV['OPENSEARCH_DESCRIPTION_URL'], opensearch_uri)
+              parliament_match = request_1.uri.sub(ENV['PARLIAMENT_BASE_URL'], parliament_uri) == request_2.uri.sub(ENV['PARLIAMENT_BASE_URL'], parliament_uri) if ENV['PARLIAMENT_BASE_URL']
+              bandiera_match   = request_1.uri.sub(ENV['BANDIERA_URL'], bandiera_uri) == request_2.uri.sub(ENV['BANDIERA_URL'], bandiera_uri) if ENV['BANDIERA_URL']
+              opensearch_match = request_1.uri.sub(ENV['OPENSEARCH_DESCRIPTION_URL'], opensearch_uri) == request_2.uri.sub(ENV['OPENSEARCH_DESCRIPTION_URL'], opensearch_uri) if ENV['OPENSEARCH_DESCRIPTION_URL']
 
               parliament_match || bandiera_match || opensearch_match
             end
@@ -32,10 +32,10 @@ module Parliament
             config.default_cassette_options = { match_requests_on: [:method, :filtered_uri] }
 
             # Dynamically filter our sensitive information
-            config.filter_sensitive_data('<AUTH_TOKEN>') { ENV['PARLIAMENT_AUTH_TOKEN'] }
-            config.filter_sensitive_data(parliament_uri) { ENV['PARLIAMENT_BASE_URL'] }
-            config.filter_sensitive_data(bandiera_uri)   { ENV['BANDIERA_URL'] }
-            config.filter_sensitive_data(opensearch_uri) { ENV['OPENSEARCH_DESCRIPTION_URL'] }
+            config.filter_sensitive_data('<AUTH_TOKEN>') { ENV['PARLIAMENT_AUTH_TOKEN'] } if ENV['PARLIAMENT_AUTH_TOKEN']
+            config.filter_sensitive_data(parliament_uri) { ENV['PARLIAMENT_BASE_URL'] } if ENV['PARLIAMENT_BASE_URL']
+            config.filter_sensitive_data(bandiera_uri)   { ENV['BANDIERA_URL'] } if ENV['BANDIERA_URL']
+            config.filter_sensitive_data(opensearch_uri) { ENV['OPENSEARCH_DESCRIPTION_URL'] } if ENV['OPENSEARCH_DESCRIPTION_URL']
 
             # Dynamically filter n-triple data
             config.before_record do |interaction|
