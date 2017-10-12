@@ -47,9 +47,9 @@ module Parliament
         # @param [Object] name a Vcard::Name.
         # @return [Vcard::Vcard::Maker, Boolean] a Vcard maker with person details set or false if the contact point is not associated with a person.
         def person_set(contact_point, name)
-          return false if contact_point.incumbency.nil? || contact_point.incumbency.member.nil?
-          name.given = contact_point.incumbency.member.given_name
-          name.family = contact_point.incumbency.member.family_name
+          return false if contact_point.parliamentary_incumbency.nil? || contact_point.parliamentary_incumbency.member.nil?
+          name.given = contact_point.parliamentary_incumbency.member.given_name
+          name.family = contact_point.parliamentary_incumbency.member.family_name
         end
       end
     end
