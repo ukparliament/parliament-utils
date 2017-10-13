@@ -23,13 +23,11 @@ module Parliament
           # Catch potential nil values
           raise StandardError, 'Data URL does not exist' if @data_url.nil?
 
-          response.headers['Accept'] = request.formats.first
-          # Get the file extension for a given type
-          format_type = Parliament::Utils::Helpers::FormatHelper::DATA_FORMATS[request.formats.first]
+          # Get the requested type
+          response.headers['Accept'] = request.formats.first.to_s
 
           # Set redirect_url as URI object
           redirect_url = URI(@data_url.call(params).query_url)
-          redirect_url.path += ".#{format_type}"
           return redirect_to(redirect_url.to_s)
         end
 
