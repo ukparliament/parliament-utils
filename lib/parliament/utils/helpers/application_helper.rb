@@ -15,7 +15,7 @@ module Parliament
         def data_check
           # Check format to see if it is available from the data API
           # We DO NOT offer data formats for constituency maps
-          return if !Parliament::Utils::Helpers::FormatHelper::DATA_FORMATS.keys.include?(request.formats.first) || (params[:controller] == 'constituencies' && params[:action] == 'map')
+          return if !Parliament::Utils::Helpers::FormatHelper::DATA_FORMATS.include?(request.formats.first) || (params[:controller] == 'constituencies' && params[:action] == 'map')
 
           # Find the current controller/action's API url
           @data_url = data_url
@@ -55,10 +55,13 @@ module Parliament
         def populate_alternates(url)
           alternates = []
 
-          Parliament::Utils::Helpers::FormatHelper::DATA_FORMATS.each do |format, type|
-            data_uri = URI.parse(url)
-            data_uri.path += ".#{type}"
-            alternates << { type: format, href: data_uri.to_s }
+          Parliament::Utils::Helpers::FormatHelper::DATA_FORMATS.each do |format|
+            uri =  URI.parse(url)
+
+            uri_form = URI.decode_www_form(String(uri.query)) << ['format',format]
+
+            uri.query = URI.encode_www_form(uri_form)
+            alternates << { type: format, href: uri.to_s }
           end
 
           Pugin.alternates = alternates
