@@ -14,7 +14,8 @@ module Parliament
         # If they are, transparently redirect them with a '302: Found' status code
         def data_check
           # Check format to see if it is available from the data API
-          return if !Parliament::Utils::Helpers::FormatHelper::DATA_FORMATS.include?(request.formats.first) || (params[:controller] == 'constituencies' && params[:action] == 'map')
+          # We DO NOT offer data formats for constituency maps
+          return if !Parliament::Utils::Helpers::FormatHelper::DATA_FORMATS.keys.include?(request.formats.first) || (params[:controller] == 'constituencies' && params[:action] == 'map')
 
           # Find the current controller/action's API url
           @data_url = data_url
@@ -23,13 +24,13 @@ module Parliament
           raise StandardError, 'Data URL does not exist' if @data_url.nil?
 
           response.headers['Accept'] = request.formats.first
-          # Store format_type if format in url is json or xml
-          request.path_parameters[:format] == 'json' || request.path_parameters[:format] == 'xml' ? format_type = request.path_parameters[:format] : format_type = nil
+          # Get the file extension for a given type
+          format_type = Parliament::Utils::Helpers::FormatHelper::DATA_FORMATS[request.formats.first]
+
           # Set redirect_url as URI object
           redirect_url = URI(@data_url.call(params).query_url)
-          # add format_type to path if format in url is json or xml
-          redirect_url.path = redirect_url.path + '.' + format_type if format_type
-          redirect_to(redirect_url.to_s) && return
+          redirect_url.path += ".#{format_type}"
+          return redirect_to(redirect_url.to_s)
         end
 
         # Get the data URL for our current controller and action OR raise a StandardError
@@ -54,8 +55,10 @@ module Parliament
         def populate_alternates(url)
           alternates = []
 
-          Parliament::Utils::Helpers::FormatHelper::DATA_FORMATS.each do |format|
-            alternates << { type: format, href: url }
+          Parliament::Utils::Helpers::FormatHelper::DATA_FORMATS.each do |format, type|
+            data_uri = URI.parse(url)
+            data_uri.path += ".#{type}"
+            alternates << { type: format, href: data_uri.to_s }
           end
 
           Pugin.alternates = alternates
