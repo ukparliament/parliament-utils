@@ -2,9 +2,19 @@ module Parliament
   module Utils
     module TestHelpers
       module VCRHelper
-        require 'vcr'
+        begin
+          require 'vcr'
+
+          LOADED_VCR = true
+        rescue LoadError
+          puts 'VCR Helper could not find VCR. This may be expected in production environments.'
+
+          LOADED_VCR = false
+        end
 
         def self.load_rspec_config(config)
+          return unless LOADED_VCR
+
           # URIs that appear frequently
           parliament_uri = 'http://localhost:3030'
           bandiera_uri   = 'http://localhost:5000'
@@ -82,6 +92,8 @@ module Parliament
               end
             end
           end
+
+          config
         end
       end
     end
