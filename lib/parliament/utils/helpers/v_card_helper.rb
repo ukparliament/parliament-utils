@@ -5,7 +5,7 @@ module Parliament
       module VCardHelper
         # Generates a vcard for the given contact point.
         #
-        # @param [Grom::Node] contact_point a Grom::Node with type: http://id.ukpds.org/schema/ContactPoint.
+        # @param [Grom::Node] contact_point a Grom::Node with type: https://id.parliament.uk/schema/ContactPoint.
         # @return [Vcard::Vcard] a vcard with person, postal address and contact details set.
         def create_vcard(contact_point)
           Vcard::Vcard::Maker.make2 do |maker|
@@ -19,7 +19,7 @@ module Parliament
 
         # Sets the contact details of a vcard.
         #
-        # @param [Grom::Node] contact_point a Grom::Node with type: http://id.ukpds.org/schema/ContactPoint.
+        # @param [Grom::Node] contact_point a Grom::Node with type: https://id.parliament.uk/schema/ContactPoint.
         # @param [Vcard::Vcard::Maker] maker a Vcard builder.
         # @return [Vcard::Vcard::Maker] a Vcard maker with contact details set.
         def contacts_set(contact_point, maker)
@@ -30,7 +30,7 @@ module Parliament
 
         # Sets the postal address of a vcard.
         #
-        # @param [Grom::Node] contact_point a Grom::Node with type: http://id.ukpds.org/schema/ContactPoint.
+        # @param [Grom::Node] contact_point a Grom::Node with type: https://id.parliament.uk/schema/ContactPoint.
         # @param [Vcard::Vcard::Maker] maker a Vcard builder.
         # @return [Vcard::Vcard::Maker, Boolean] a Vcard maker with postal address set or false if the contact point has no postal addresses.
         def postal_address_set(contact_point, maker)
@@ -43,7 +43,7 @@ module Parliament
 
         # Sets the person details of a vcard.
         #
-        # @param [Grom::Node] contact_point a Grom::Node with type: http://id.ukpds.org/schema/ContactPoint.
+        # @param [Grom::Node] contact_point a Grom::Node with type: https://id.parliament.uk/schema/ContactPoint.
         # @param [Object] name a Vcard::Name.
         # @return [Vcard::Vcard::Maker, Boolean] a Vcard maker with person details set or false if the contact point is not associated with a person.
         def person_set(contact_point, name)
