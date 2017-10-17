@@ -4,7 +4,7 @@ module Parliament
       module HousesHelper
         # Checks if house is the House of Commons and sets @commons_id and @lords_id if not already set.
         #
-        # @param [Grom::Node] house a Grom::Node with type http://id.ukpds.org/schema/House.
+        # @param [Grom::Node] house a Grom::Node with type https://id.parliament.uk/schema/House.
         # @return [Boolean] boolean depending on whether the house has the same id as the House of Commons.
         def self.commons?(house)
           set_ids
@@ -14,7 +14,7 @@ module Parliament
 
         # Checks if house is the House of Lords and sets @commons_id and @lords_id if not already set.
         #
-        # @param [Grom::Node] house a Grom::Node with type http://id.ukpds.org/schema/House.
+        # @param [Grom::Node] house a Grom::Node with type https://id.parliament.uk/schema/House.
         # @return [Boolean] boolean depending on whether the house has the same id as the House of Lords.
         def self.lords?(house)
           !commons?(house)
@@ -69,7 +69,7 @@ module Parliament
 
         def self.set_ids
           return if @commons_id && @lords_id
-          houses = Parliament::Utils::Helpers::ParliamentHelper.parliament_request.house_index.get.filter('http://id.ukpds.org/schema/House').sort_by(:name)
+          houses = Parliament::Utils::Helpers::ParliamentHelper.parliament_request.house_index.get.filter('https://id.parliament.uk/schema/House').sort_by(:name)
 
           @commons_id = houses.first.graph_id
           @lords_id = houses.last.graph_id

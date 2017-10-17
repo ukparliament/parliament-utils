@@ -3,6 +3,9 @@ module Parliament
   module Utils
     module Helpers
       module RequestHelper
+        # The base namespace used for filtering parliamentary data within sparql queries
+        NAMESPACE_URI = 'https://id.parliament.uk'.freeze
+
         # Takes a Parliament::Request and calls the #get method.
         # Then maps the #value method on the resulting response.
         #
@@ -23,6 +26,31 @@ module Parliament
         def self.filter_response_data(request, *filters)
           response = request.get
           response.filter(*filters)
+        end
+
+        # Returns the base namespace used for filtering parliamentary data within sparql queries
+        #
+        # @return [String]
+        def self.namespace_uri
+          NAMESPACE_URI
+        end
+
+        # Returns uri with specific path added for filtering parliamentary data within sparql queries
+        #
+        # @param [String] Path string to append to the base uri
+        #
+        # @return [String] uri with specific path added for filtering parliamentary data within sparql queries
+        def self.namespace_uri_path(path)
+          self.namespace_uri + path
+        end
+
+        # Returns uri with schema path and specific type added for filtering parliamentary data within sparql queries
+        #
+        # @param [String] Type string to append to the schema uri
+        #
+        # @return [String] uri with schema path and specific type added for filtering parliamentary data within sparql queries
+        def self.namespace_uri_schema_path(type)
+          self.namespace_uri_path("/schema/#{type}")
         end
       end
     end
