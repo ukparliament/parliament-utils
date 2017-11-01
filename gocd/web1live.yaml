@@ -1,9 +1,9 @@
 pipelines:
-  GEM-grom:
+  GEM-utils:
     group: Dependencies
     label_template: "${COUNT}"
     materials:
-      GEM-grom-git:
+      GEM-utils-git:
         git: https://github.com/ukparliament/parliament-utils.git
         branch: master
         auto_update: true
