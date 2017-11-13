@@ -6,6 +6,7 @@ require_relative './helpers/parliament_helper'
 require_relative './helpers/postcode_helper'
 require_relative './helpers/request_helper'
 require_relative './helpers/v_card_helper'
+require_relative './helpers/filter_helper'
 
 require 'parliament/grom/decorator'
 
