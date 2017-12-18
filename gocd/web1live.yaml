@@ -1,9 +1,10 @@
 pipelines:
-  GEM-utils:
+  parliament-utils:
     group: Dependencies
     label_template: "${COUNT}"
     materials:
-      GEM-utils-git:
+      
+      parliament-utils-git:
         git: https://github.com/ukparliament/parliament-utils.git
         branch: master
         auto_update: true
@@ -27,4 +28,4 @@ pipelines:
 environments:
   Web.LIVE:
     pipelines:
-      - GEM-utils
+      - parliament-utils
