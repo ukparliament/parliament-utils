@@ -5,7 +5,7 @@ RSpec.describe Parliament::Utils::Helpers::FilterHelper, vcr: true do
   it 'is a module' do
     expect(subject).to be_a(Module)
   end
- 
+
   context '#filter' do
     it 'filters one type' do
       house = subject.filter(Parliament::Utils::Helpers::ParliamentHelper.parliament_request.house_index, 'House').first
@@ -29,6 +29,10 @@ RSpec.describe Parliament::Utils::Helpers::FilterHelper, vcr: true do
   context '#filter_types' do
     it 'checks whether the type is ordnance' do
       expect(subject.filter_types('House', 'ordnance')).to eq([Parliament::Utils::Helpers::RequestHelper.namespace_uri_schema_path('House'), 'http://data.ordnancesurvey.co.uk/ontology/admingeo/EuropeanRegion'])
+    end
+
+    it 'checks for blank nodes' do
+      expect(subject.filter_types('House', ::Grom::Node::BLANK)).to eq([Parliament::Utils::Helpers::RequestHelper.namespace_uri_schema_path('House'), ::Grom::Node::BLANK])
     end
   end
 

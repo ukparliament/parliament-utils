@@ -23,8 +23,13 @@ module Parliament
         # @return [Array] array of types to filter by
         def self.filter_types(*types)
           types_to_filter = []
+
           types.each do |type|
-            type == 'ordnance' ? types_to_filter << 'http://data.ordnancesurvey.co.uk/ontology/admingeo/EuropeanRegion' : types_to_filter << Parliament::Utils::Helpers::RequestHelper.namespace_uri_schema_path(type)
+            if type == ::Grom::Node::BLANK
+              types_to_filter << ::Grom::Node::BLANK
+            else
+              type == 'ordnance' ? types_to_filter << 'http://data.ordnancesurvey.co.uk/ontology/admingeo/EuropeanRegion' : types_to_filter << Parliament::Utils::Helpers::RequestHelper.namespace_uri_schema_path(type)
+            end
           end
           types_to_filter
         end
