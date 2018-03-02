@@ -28,6 +28,11 @@ module Parliament
 
           # Set redirect_url as URI object
           redirect_url = URI(@data_url.call(params).query_url)
+
+          # Get the request url as a URI object
+          request_extension = File.extname(URI.parse(request.url).path)
+          redirect_url.path = redirect_url.path + request_extension if request_extension != ''
+
           return redirect_to(redirect_url.to_s)
         end
 
