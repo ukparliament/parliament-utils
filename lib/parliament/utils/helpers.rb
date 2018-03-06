@@ -1,6 +1,5 @@
 require_relative './helpers/application_helper'
 require_relative './helpers/flag_helper'
-require_relative './helpers/format_helper'
 require_relative './helpers/houses_helper'
 require_relative './helpers/parliament_helper'
 require_relative './helpers/postcode_helper'

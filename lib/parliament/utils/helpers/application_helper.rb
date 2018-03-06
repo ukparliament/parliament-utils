@@ -2,6 +2,54 @@ module Parliament
   module Utils
     module Helpers
       module ApplicationHelper
+        # What MIME types does the API accept?
+        #
+        # Note: All of the below are used to generate MIME types that our application will answer to, but NOT the
+        # alternatives shown in our header. See ALTERNATIVE_MIME_TYPE_CONFIG.
+        API_MIME_TYPE_CONFIG = [
+            {
+                nt: 'application/n-triples'
+            },
+            {
+                ttl: 'text/turtle'
+            },
+            {
+                tsv: 'text/tab-separated-values'
+            },
+            {
+                csv: 'text/csv'
+            },
+            {
+                rj: 'application/json+rdf'
+            },
+            {
+                jsonld: 'application/json+ld',
+                json:   'application/json'
+            },
+            {
+                rdfxml: 'application/rdf+xml',
+                rdf:    'application/xml',
+                xml:    'text/xml'
+            }
+        ].freeze
+
+        # Use the above, minus the last two entries (json & xml), to build an alternative URL list.
+        # Then re-create JSON and XML with the correct alternatives
+        ALTERNATIVE_MIME_TYPE_CONFIG = API_MIME_TYPE_CONFIG.take(API_MIME_TYPE_CONFIG.size-2).concat(
+            [
+                {
+                    json: 'application/json+ld'
+                },
+                {
+                    xml: 'application/rdf+xml'
+                }
+            ]
+        )
+
+        API_MIME_TYPES                   = Parliament::Utils::Helpers::ApplicationHelper::API_MIME_TYPE_CONFIG.map { |mime_type| mime_type.values }.flatten.freeze
+        API_FILE_EXTENSIONS              = Parliament::Utils::Helpers::ApplicationHelper::API_MIME_TYPE_CONFIG.map { |mime_type| mime_type.keys   }.flatten.freeze
+        ALTERNATIVE_MIME_TYPES_FLATTENED = Parliament::Utils::Helpers::ApplicationHelper::ALTERNATIVE_MIME_TYPE_CONFIG.reduce(:merge)
+
         # Sets the title for a page.
         #
         # @param [String] page_title the title of the page.
@@ -15,7 +63,7 @@ module Parliament
         def data_check
           # Check format to see if it is available from the data API
           # We DO NOT offer data formats for constituency maps
-          return if !Parliament::Utils::Helpers::FormatHelper::DATA_FORMATS.include?(request.formats.first) || (params[:controller] == 'constituencies' && params[:action] == 'map')
+          return if !API_MIME_TYPES.include?(request.formats.first) || (params[:controller] == 'constituencies' && params[:action] == 'map')
 
           # Find the current controller/action's API url
           @data_url = data_url
@@ -58,12 +106,10 @@ module Parliament
         def populate_alternates(url)
           alternates = []
 
-          Parliament::Utils::Helpers::FormatHelper::DATA_FORMATS.each do |format|
+          ALTERNATIVE_MIME_TYPES_FLATTENED.each do |extension, format| # (key, value)
             uri =  URI.parse(url)
+            uri.path = "#{uri.path}.#{extension}"
 
-            uri_form = URI.decode_www_form(String(uri.query)) << ['format',format]
-
-            uri.query = URI.encode_www_form(uri_form)
             alternates << { type: format, href: uri.to_s }
           end
 
