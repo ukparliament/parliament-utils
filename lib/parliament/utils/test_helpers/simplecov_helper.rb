@@ -9,10 +9,11 @@ module Parliament
           SimpleCov.formatter = SimpleCov::Formatter::MultiFormatter.new([
             Coveralls::SimpleCov::Formatter,
             SimpleCov::Formatter::HTMLFormatter
-            ])
-            SimpleCov.start
-          end
+          ])
+          profile = defined?(Rails) ? 'rails' : nil
+          SimpleCov.start profile
         end
       end
     end
   end
+end
