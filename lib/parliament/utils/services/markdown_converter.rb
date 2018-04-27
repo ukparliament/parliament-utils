@@ -36,15 +36,13 @@ module Parliament
             # Add video ID
             url << "/#{uri.path.split('/').last}?"
             # Add original query if present, and not an empty string
-            url << "#{uri.query}&" if uri.query&.size
+            url << "#{CGI.escapeHTML(uri.query).split(';amp;').join(';')}&amp;" if uri.query&.size
             # Add player options
             url << 'audioOnly=False&amp;autoStart=False&amp;statsEnabled=False'
           end
 
           # Return the video player
-          %(<div class="video-wrap">
-<iframe src="#{video_url}" name="UKPPlayer" title="UK Parliament Player" seamless="seamless" frameborder="0" allowfullscreen style="width: 100%; height: 100%"></iframe>
-</div>)
+          %(<div class="video-wrap"><iframe src="#{video_url}" name="UKPPlayer" title="UK Parliament Player" seamless="seamless" frameborder="0" allowfullscreen style="width: 100%; height: 100%"></iframe></div>)
         end
       end
     end
