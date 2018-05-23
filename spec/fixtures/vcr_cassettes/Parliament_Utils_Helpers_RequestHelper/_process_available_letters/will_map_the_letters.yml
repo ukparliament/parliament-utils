@@ -1,0 +1,54 @@
+---
+http_interactions:
+- request:
+    method: get
+    uri: http://localhost:3030/api/v1/person_a_to_z
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+      Accept:
+      - "*/*"
+      - application/n-triples
+      User-Agent:
+      - Ruby
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Content-Type:
+      - application/n-triples
+      Content-Disposition:
+      - inline; filename="index"
+      Last-Modified:
+      - Thu, 08 Feb 2018 15:21:34 GMT
+      X-Content-Type-Options:
+      - nosniff
+      Content-Length:
+      - '1565'
+    body:
+      encoding: UTF-8
+      string: "_:node352038 <https://id.parliament.uk/schema/value> \"B\" .\r\n_:node352039
+        <https://id.parliament.uk/schema/value> \"P\" .\r\n_:node352040 <https://id.parliament.uk/schema/value>
+        \"H\" .\r\n_:node352041 <https://id.parliament.uk/schema/value> \"V\" .\r\n_:node352042
+        <https://id.parliament.uk/schema/value> \"R\" .\r\n_:node352043 <https://id.parliament.uk/schema/value>
+        \"T\" .\r\n_:node352044 <https://id.parliament.uk/schema/value> \"C\" .\r\n_:node352045
+        <https://id.parliament.uk/schema/value> \"J\" .\r\n_:node352046 <https://id.parliament.uk/schema/value>
+        \"F\" .\r\n_:node352047 <https://id.parliament.uk/schema/value> \"N\" .\r\n_:node352048
+        <https://id.parliament.uk/schema/value> \"W\" .\r\n_:node352049 <https://id.parliament.uk/schema/value>
+        \"M\" .\r\n_:node352050 <https://id.parliament.uk/schema/value> \"Q\" .\r\n_:node352051
+        <https://id.parliament.uk/schema/value> \"S\" .\r\n_:node352052 <https://id.parliament.uk/schema/value>
+        \"G\" .\r\n_:node352053 <https://id.parliament.uk/schema/value> \"A\" .\r\n_:node352054
+        <https://id.parliament.uk/schema/value> \"D\" .\r\n_:node352055 <https://id.parliament.uk/schema/value>
+        \"E\" .\r\n_:node352056 <https://id.parliament.uk/schema/value> \"L\" .\r\n_:node352057
+        <https://id.parliament.uk/schema/value> \"U\" .\r\n_:node352058 <https://id.parliament.uk/schema/value>
+        \"K\" .\r\n_:node352059 <https://id.parliament.uk/schema/value> \"I\" .\r\n_:node352060
+        <https://id.parliament.uk/schema/value> \"O\" .\r\n_:node352061 <https://id.parliament.uk/schema/value>
+        \"Y\" .\r\n_:node352062 <https://id.parliament.uk/schema/value> \"Z\" .\r\n_:node352063
+        <https://id.parliament.uk/schema/value> \"\\u00D6\" .\r\n"
+    http_version: 
+  recorded_at: Thu, 26 Apr 2018 15:55:48 GMT
+recorded_with: VCR 3.0.3
