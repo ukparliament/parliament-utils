@@ -13,7 +13,7 @@ module Parliament
         #
         def autolink(link, link_type)
           if link_type == :url
-            return parliament_live_video_embed(link) if link.match(/parliamentlive.tv\/event\/index\/[a-z0-9-]{36}/i)
+            return parliament_live_video_embed(link) if link =~ /parliamentlive.tv\/event\/index\/[a-z0-9-]{36}/i
           end
 
           link # call super instead if we actually want autolinking
