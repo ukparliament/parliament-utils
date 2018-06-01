@@ -7,9 +7,18 @@ RSpec.describe Parliament::Utils::Helpers::MarkdownHelper do
 
   context '#markdown' do
     context 'text' do
+      let(:valid_markdown_text){ 'You can submit an oral question online using [e-tabling](https://etabling.parliament.uk/)' }
+      let(:markdown_with_lax_newlines){ File.read('spec/fixtures/markdown/newline_issues.md') }
+      let(:converted_markdown_with_lax_newlines){ File.read('spec/fixtures/markdown/converted_newline_issues') }
+
       it 'converts markdown to HTML' do
-        text = 'You can submit an oral question online using [e-tabling](https://etabling.parliament.uk/)'
-        expect(subject.markdown(text)).to match('<p>You can submit an oral question online using <a href=\"https://etabling.parliament.uk/\">e-tabling</a></p>')
+        expect(subject.markdown(valid_markdown_text)).to match('<p>You can submit an oral question online using <a href=\"https://etabling.parliament.uk/\">e-tabling</a></p>')
+      end
+
+      context 'markdown with newline issues' do
+        it 'converts markdown to correcet HTML' do
+          expect(subject.markdown(markdown_with_lax_newlines)).to match(converted_markdown_with_lax_newlines)
+        end
       end
     end
 
