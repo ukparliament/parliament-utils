@@ -41,11 +41,8 @@ module Parliament
             url << 'audioOnly=False&autoStart=False&statsEnabled=False'
           end
 
-          # Escape special characters in HTML
-          video_url = CGI.escapeHTML(video_url)
-
           # Return the video player
-          %(<div class="video-wrap"><iframe src="#{video_url}" name="UKPPlayer" title="UK Parliament Player" seamless="seamless" frameborder="0" allowfullscreen style="width: 100%; height: 100%"></iframe></div>)
+          %(<div class="video-wrap"><iframe src="#{video_url}" name="UKPPlayer" title="UK Parliament Player" seamless="seamless" frameborder="0" allowfullscreen style="width: 100%; height: 100%;"></iframe></div>)
         end
       end
     end

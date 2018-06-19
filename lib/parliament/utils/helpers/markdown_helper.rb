@@ -16,8 +16,10 @@ module Parliament
           parliament_scrubber = Parliament::Utils::Services::ParliamentMarkdownScrubber.new
 
           markdown = Redcarpet::Markdown.new(parliament_renderer, tables: true, autolink: true, lax_spacing: true)
-          html = markdown.render(ActionController::Base.helpers.sanitize(template, scrubber: parliament_scrubber))
+
+          html = markdown.render(template)
           ActionController::Base.helpers.sanitize(html, scrubber: parliament_scrubber).html_safe
+          html.html_safe
         end
       end
     end
