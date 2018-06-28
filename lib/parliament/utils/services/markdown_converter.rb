@@ -36,7 +36,7 @@ module Parliament
             # Add video ID
             url << "/#{uri.path.split('/').last}?"
             # Add original query if present, and not an empty string
-            url << "#{uri.query}&" if uri.query&.size
+            url << "#{CGI.unescapeHTML(uri.query)}&" if uri.query&.size
             # Add player options
             url << 'audioOnly=False&autoStart=False&statsEnabled=False'
           end
