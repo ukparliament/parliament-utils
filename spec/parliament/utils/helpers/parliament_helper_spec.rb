@@ -7,6 +7,10 @@ RSpec.describe Parliament::Utils::Helpers::ParliamentHelper do
     end
 
     context 'returned Parliament::Request::UrlRequest object' do
+      before :each do
+        stub_const('::ENV', { "PARLIAMENT_API_VERSION" => 'Live' })
+      end
+
       let(:parliament_request){ described_class.parliament_request }
 
       it 'will have correct builder' do
@@ -14,8 +18,8 @@ RSpec.describe Parliament::Utils::Helpers::ParliamentHelper do
       end
 
       it 'will have correct headers' do
-        expect(parliament_request.instance_variable_get(:@headers).keys.count).to eq(1)
-        expect(parliament_request.instance_variable_get(:@headers).keys[0]).to eq('Ocp-Apim-Subscription-Key')
+        expect(parliament_request.instance_variable_get(:@headers).keys.count).to eq(2)
+        expect(parliament_request.instance_variable_get(:@headers).keys).to eq(['Ocp-Apim-Subscription-Key', 'Api-Version'])
       end
 
       it 'will have correct decorator' do
