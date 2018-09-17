@@ -10,7 +10,7 @@ module Parliament
           def commons?(house)
             set_ids
 
-            house.graph_id == @commons_id
+            house&.graph_id == @commons_id
           end
 
           # Checks if house is the House of Lords and sets @commons_id and @lords_id if not already set.
@@ -18,6 +18,8 @@ module Parliament
           # @param [Grom::Node] house a Grom::Node with type https://id.parliament.uk/schema/House.
           # @return [Boolean] boolean depending on whether the house has the same id as the House of Lords.
           def lords?(house)
+            return false if house.nil?
+
             !commons?(house)
           end
 

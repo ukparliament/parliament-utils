@@ -24,6 +24,12 @@ RSpec.describe Parliament::Utils::Helpers::HousesHelper, vcr: true do
         expect(described_class.commons?(lords)).to eq(false)
       end
     end
+
+    context 'nil' do
+      it 'will return false' do
+        expect(described_class.commons?(nil)).to eq(false)
+      end
+    end
   end
 
   context '.lords?' do
@@ -36,6 +42,12 @@ RSpec.describe Parliament::Utils::Helpers::HousesHelper, vcr: true do
     context 'not lords' do
       it 'will return false' do
         expect(described_class.lords?(commons)).to eq(false)
+      end
+    end
+
+    context 'nil' do
+      it 'will return false' do
+        expect(described_class.lords?(nil)).to eq(false)
       end
     end
   end
