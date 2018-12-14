@@ -19,9 +19,9 @@ module Parliament
           begin
             Parliament::Utils::Helpers::ParliamentHelper.parliament_request.constituency_lookup_by_postcode.get(params: { postcode: postcode })
           rescue Parliament::ClientError
-            raise(PostcodeError, I18n.t('error.no_constituency').capitalize)
+            raise(PostcodeError, I18n.t('error.postcode_invalid_html'))
           rescue Parliament::ServerError
-            raise(PostcodeError, I18n.t('error.lookup_unavailable').capitalize)
+            raise(PostcodeError, I18n.t('error.lookup_unavailable'))
           end
         end
 
@@ -57,7 +57,7 @@ module Parliament
         def self.clean_input(raw_input)
           postcode = raw_input.gsub(/\s+/, '').upcase
 
-          postcode.match(/[A-Z]{1,2}[0-9][0-9A-Z]?\s?[0-9][A-Z]{2}/).nil? ? raise(PostcodeError, I18n.t('error.postcode_invalid').capitalize) : postcode
+          postcode.match(/[A-Z]{1,2}[0-9][0-9A-Z]?\s?[0-9][A-Z]{2}/).nil? ? raise(PostcodeError, I18n.t('error.postcode_invalid_html')) : postcode
         end
 
         class PostcodeError < StandardError

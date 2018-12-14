@@ -25,13 +25,13 @@ RSpec.describe Parliament::Utils::Helpers::PostcodeHelper, vcr: true do
 
   context 'given an invalid postcode (containing non-postcode characters)' do
     it 'raises a PostcodeHelper::PostcodeError' do
-      expect{ Parliament::Utils::Helpers::PostcodeHelper.lookup("<E2'0JA>") }.to raise_error(Parliament::Utils::Helpers::PostcodeHelper::PostcodeError, "We couldn't find the postcode you entered.")
+      expect{ Parliament::Utils::Helpers::PostcodeHelper.lookup("<E2'0JA>") }.to raise_error(Parliament::Utils::Helpers::PostcodeHelper::PostcodeError, 'We could not find your postcode. If you have any questions, <a href="https://www.parliament.uk/mps-lords-and-offices/offices/commons/hcio/contact-us">contact the House of Commons Enquiry Service</a>.')
     end
   end
 
   context 'given an invalid postcode (containing valid postcode characters)' do
     it 'raises a PostcodeHelper::PostcodeError' do
-      expect{ Parliament::Utils::Helpers::PostcodeHelper.lookup('JE2 4NJ') }.to raise_error(Parliament::Utils::Helpers::PostcodeHelper::PostcodeError, "We couldn't find the postcode you entered.")
+      expect{ Parliament::Utils::Helpers::PostcodeHelper.lookup('JE2 4NJ') }.to raise_error(Parliament::Utils::Helpers::PostcodeHelper::PostcodeError, 'We could not find your postcode. If you have any questions, <a href="https://www.parliament.uk/mps-lords-and-offices/offices/commons/hcio/contact-us">contact the House of Commons Enquiry Service</a>.')
     end
   end
 
@@ -40,7 +40,7 @@ RSpec.describe Parliament::Utils::Helpers::PostcodeHelper, vcr: true do
       stub_request(:get, "#{ENV['PARLIAMENT_BASE_URL']}/constituency_lookup_by_postcode?postcode=E20JA").
         to_return(status: [500, 'Internal Server Error'])
 
-      expect{ Parliament::Utils::Helpers::PostcodeHelper.lookup('E2 0JA') }.to raise_error(Parliament::Utils::Helpers::PostcodeHelper::PostcodeError, 'Postcode check is currently unavailable.')
+      expect{ Parliament::Utils::Helpers::PostcodeHelper.lookup('E2 0JA') }.to raise_error(Parliament::Utils::Helpers::PostcodeHelper::PostcodeError, 'Postcode check is not available. Please try again later.')
     end
   end
 
