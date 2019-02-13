@@ -22,7 +22,7 @@ Gem::Specification.new do |spec|
   spec.require_paths = ['lib']
 
   spec.add_dependency 'parliament-ruby'
-  spec.add_dependency 'parliament-grom-decorators', '0.31'
+  spec.add_dependency 'parliament-grom-decorators', '0.32'
   spec.add_dependency 'parliament-ntriple'
   spec.add_dependency 'i18n'
   spec.add_dependency 'vcard'
